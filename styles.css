@@ -1,0 +1,70 @@
+:root{
+    --end-rotate: 720deg;
+}
+.body {
+    background: #f0f0f0; 
+    font-family: "Times New Roman", times, serif;
+   }
+h1{
+    font-size: 100px;
+    text-align: center;
+    color: rgb(136, 132, 132);
+    text-shadow: 1px 1px #000;
+}
+.box {
+    position: absolute;
+    width: 600px;
+    height: 250px;
+    border-radius: 10px;
+    border: solid black;
+    font-size: 90px;
+    font-weight: bold;
+    color: #f0f0f0;
+    text-align: center;
+    box-shadow: 0.2em 0.2em 10px rgba(87, 87, 87, 0.5);
+   }
+.score {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 100px;
+    border-radius: 2px;
+    background-color: #f0f0f0;
+}
+.field {
+    position: absolute;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    text-align: center; 
+    width: 1200px;
+    height: 1200px;
+    border-radius: 100%;
+    background-color: indianred;
+    z-index: 10;
+}
+.arrow {
+    position: absolute;
+    width: 50%;
+    height:1.5%; 
+    border-radius:500px; 
+    background-color: black; 
+    margin-left: 50%;
+    margin-top: 50%;
+    transform-origin: 0% 0%;
+    transform: rotate(-90deg);
+}
+.anim {
+    animation: size 5s cubic-bezier(0.5, 0, 0, 1) 0s 1 alternate both;
+}
+
+@keyframes size{
+    100% {
+       transform: rotate(var(--end-rotate));
+    }
+}
