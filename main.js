@@ -70,7 +70,7 @@ function draw(){
     img.style.top = 305 - topp;
 
     img.id=toDegrees((deg + degres)/2);
-    img.src = "file.png";
+    img.src = "https://raw.githack.com/Larong11/Esenin/main/file.png";
     document.getElementById("images").appendChild(img);
     drawLine(ctx, 325 + (325 * Math.sin(deg)),  325 - (325 * Math.cos(deg)),  325,  325);
     degres = toRadians(i);
