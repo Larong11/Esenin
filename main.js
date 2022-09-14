@@ -53,7 +53,7 @@ function AnimationHandler () {
   need = 1;
   parts--;
   draw()
-}
+} 
 function draw(){
   past = 0;
   degres = 0;
