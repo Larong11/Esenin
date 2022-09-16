@@ -19,6 +19,7 @@ var parts = 13;
 var degres = 0;
 var rand;
 var isQuestion = 0;
+var win = 0;
 
 var quests = [
   "Какое дерево  у Дома-музея С.Есенина в с.Константиново стало памятником живой природы?",
@@ -149,10 +150,6 @@ function makeQuestion(i){
   document.getElementById("b2").addEventListener("click", function(){console.log("b2"); checkAnswer(1);});
   document.getElementById("b3").addEventListener("click", function(){console.log("b3"); checkAnswer(2);});
   document.getElementById("b4").addEventListener("click", function(){console.log("b4"); checkAnswer(3);});
-  questionback = 0;
-  question = 0;
-  quest = 0;
-  but1 = 0; but2 = 0; but3 = 0; but4 = 0;
 }
 
 function checkAnswer(clicked_but){
@@ -174,9 +171,18 @@ function checkAnswer(clicked_but){
   setTimeout(() => {document.getElementById("body").removeChild(document.getElementById("questionn"))}, 3500)
 }
 
-setInterval(game(), 1000/1);
+
+function intervalTrigger() {
+  return setInterval(game(), 1)
+}
+
+var idInter = intervalTrigger();
 
 function game(){
+  if(win == 1){
+    console.log("win");
+    window.clearInterval(idInter);
+  }
   document.getElementById("field").addEventListener("click", function() {
     if(need == 1){
       rotation = getRandomInt(720, 1800);
@@ -184,12 +190,21 @@ function game(){
       arrow.classList.add("anim");
       console.log(rotation);
       need = 0;
+      
     }
   });
   
   arrow.addEventListener("animationend", AnimationHandler, false);
   
   function AnimationHandler () {
+    if(teams.indexOf(0) == 1 || teams.indexOf(0) == 0){
+      let body = document.getElementById("body");
+      let win_window = document.createElement("win");
+      win_window.innerHTML = "Team " + (teams.indexOf(0) + 1) + "<br> win"
+      body.appendChild(win_window);
+      window.clearInterval(idInter);
+      return;
+    }
     arrow.classList.remove("anim");
     arrow.style.transform = ("rotate("+(rotation + last)+"deg)");  
     console.log(rotation);
@@ -204,10 +219,9 @@ function game(){
     if(isQuestion == 0) makeQuestion(rand);
     isQuestion = 1;
   } 
-  if (isQuestion == 1){
-    
-  }
+  
   draw();
+  
 }
 
 function draw(){
