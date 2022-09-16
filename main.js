@@ -161,9 +161,11 @@ function checkAnswer(clicked_but){
     document.getElementById("b"+(clicked_but + 1)).classList.add("wrong");
     document.getElementById("team"+((!team) + 1)+"_score").removeChild(document.getElementById(((!team) + 1)+"-"+teams[!team + 1 - 1]));
     teams[!team + 1 - 1]--;
+    wrong_audio.play();
   }
   else {
     document.getElementById("team"+(team + 1)+"_score").removeChild(document.getElementById((team + 1)+"-"+teams[team]));
+    cor_audio.play();
     teams[team]--;
   }
   isQuestion = 0;
@@ -173,38 +175,47 @@ function checkAnswer(clicked_but){
 
 
 function intervalTrigger() {
-  return setInterval(game(), 1)
+  return setInterval(game(), 1000/15)
+}
+function winer(){
+  if(teams.indexOf(0) == 1 || teams.indexOf(0) == 0){
+    let body = document.getElementById("body");
+    let win_window = document.createElement("win");
+    win_window.innerHTML = "Команда  " + (teams.indexOf(0) + 1) + "<br> выиграла"
+    body.appendChild(win_window);
+    window.clearInterval(idInter);
+    win_audio.play();
+    return;
+  }
 }
 
 var idInter = intervalTrigger();
+var win_audio = new Audio('win.mp3');
+
+var cor_audio = new Audio("correct.mp3");
+
+var wrong_audio = new Audio("wrong.mp3");
+
+var rotate_audio = new Audio("rotate.mp3");
 
 function game(){
-  if(win == 1){
-    console.log("win");
-    window.clearInterval(idInter);
-  }
+  winer();
   document.getElementById("field").addEventListener("click", function() {
+    winer();
     if(need == 1){
       rotation = getRandomInt(720, 1800);
       root.style.setProperty('--end-rotate', (rotation + last) + 'deg');
       arrow.classList.add("anim");
       console.log(rotation);
       need = 0;
-      
+      rotate_audio.play();
     }
   });
   
   arrow.addEventListener("animationend", AnimationHandler, false);
   
   function AnimationHandler () {
-    if(teams.indexOf(0) == 1 || teams.indexOf(0) == 0){
-      let body = document.getElementById("body");
-      let win_window = document.createElement("win");
-      win_window.innerHTML = "Team " + (teams.indexOf(0) + 1) + "<br> win"
-      body.appendChild(win_window);
-      window.clearInterval(idInter);
-      return;
-    }
+    winer();
     arrow.classList.remove("anim");
     arrow.style.transform = ("rotate("+(rotation + last)+"deg)");  
     console.log(rotation);
@@ -213,7 +224,7 @@ function game(){
     parts--;
     rand = getRandomInt(0, 14);
     draw();
-    while (done.indexOf(rand) == 1){
+    while (done.indexOf(rand) != -1){
       rand = getRandomInt(0, 14);
     }
     if(isQuestion == 0) makeQuestion(rand);
@@ -225,6 +236,7 @@ function game(){
 }
 
 function draw(){
+  winer();
   let past = 0;
   degres = 0;
   ctx.clearRect(0, 0, cnv.width, cnv.height);
